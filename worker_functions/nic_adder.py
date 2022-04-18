@@ -10,8 +10,8 @@ def add_nic(df, nic_df_path, nic_added_path):
     :param nic_df_path: path to save the states_vector_data4 after adding nic values
     :return: None
     """
-    #unique_icaos = df['icao24'].unique()
-    unique_icaos = [i.replace(".csv", "") for i in os.listdir(nic_df_path) if i.endswith(".csv")]
+    unique_icaos = df['icao24'].unique()
+    #unique_icaos = [i.replace(".csv", "") for i in os.listdir(nic_df_path) if i.endswith(".csv")]
     for unique_icao in unique_icaos:
 
         ic_df = df[df['icao24'] == unique_icao]

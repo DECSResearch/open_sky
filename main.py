@@ -40,7 +40,7 @@ print(pos_data_query)
 
 # Pass .txt in path to call_query, the .txt will be replaced to .csv and saved as a file in the same location
 save_path = os.path.join(save_dir_main, "main_query.txt")
-call_query(pos_data_query, save_path)
+#call_query(pos_data_query, save_path)
 query_base_path = os.path.dirname(save_path)
 nic_dir = os.path.join(query_base_path, "nic_queried")
 

@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
-    list_of_icaos = [i.replace(".csv", "") for i in os.listdir(nic_file_paths) if i.endswith(".csv") if i!="a43ca8.csv"]
+    list_of_icaos = [i.replace(".csv", "") for i in os.listdir(nic_file_paths) if i.endswith(".csv")]
 
     for icao in list_of_icaos:
 
@@ -14,7 +14,12 @@ def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
         try:
             op_data = pd.read_csv(os.path.join(nac_file_paths, icao + ".csv"))
             pos_df = op_data
+
         except:
+            ic_df['nac_pos'] = np.NaN
+            ic_df['nac_vert'] = np.NaN
+            ic_df['nac_msg_count'] = np.NaN
+            ic_df.to_csv(os.path.join(unified_file_path, icao + ".csv"))
             continue
         pos_df = op_data
         nac_position = []
