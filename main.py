@@ -39,6 +39,7 @@ def query_caller(query, save_folder_name):
     pos_data_query = query
     #save_dir_main = "/home/akshay.ramchandra/PycharmProjects/nac_nic_unifier/data/19apr2021_first/"
     save_dir_main = os.path.join(R00t, "data", save_folder_name)
+    os.mkdir(save_dir_main)
     print(pos_data_query)
 
     # Pass .txt in path to call_query, the .txt will be replaced to .csv and saved as a file in the same location
