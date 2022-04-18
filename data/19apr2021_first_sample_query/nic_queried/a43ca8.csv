@@ -1,0 +1,2 @@
+rawmsg,mintime,maxtime,msgcount,icao24,nicsuppla,hcr,nic,survstatus,nicsupplb,odd,baroalt,lat,lon,alt,nicsupplc,groundspeed,gsresolution,heading,timeflag,surface,hour
+8da43ca858cd833b3875eeb86cff,1618945005.182,1618945005.182,1,a43ca8,false,185.2,9,0,false,false,true,34.84698486328125,-101.1649120097258,12192,false,,,,false,false,1618941600

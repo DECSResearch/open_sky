@@ -1,0 +1,1 @@
+Starting Impala Shell without Kerberos authentication
