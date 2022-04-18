@@ -65,7 +65,7 @@ def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
                     nac_message_counts.append(msg_count)
 
                 else:
-                    if (pos_df['maxtime'] - i).min() <= 1.2:
+                    if (pos_df['maxtime'] - i).min() <= 2:
                         pos_data_idx = (pos_df['maxtime'] - i).idxmin()
                         f2 = pos_df.iloc[pos_data_idx]
                         nacpos = f2['positionnac']
@@ -73,7 +73,7 @@ def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
                         msg_count = f2['msgcount']
                         inner_inner_yes += 1
 
-                    elif (pos_df['mintime'] - i).min() <= 1.2:
+                    elif (pos_df['mintime'] - i).min() <= 2:
                         pos_data_idx = (pos_df['mintime'] - i).idxmin()
                         f2 = pos_df.iloc[pos_data_idx]
                         nacpos = f2['positionnac']
