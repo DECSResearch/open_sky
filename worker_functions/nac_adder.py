@@ -10,17 +10,23 @@ def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
 
         # Filtering the over all df on icao
         ic_df = pd.read_csv(os.path.join(nic_file_paths, icao + ".csv"))
+
         # Getting the operational data file
+        # Some instances of op data comes blank. This check is in place to ensure the same.
         try:
             op_data = pd.read_csv(os.path.join(nac_file_paths, icao + ".csv"))
-            pos_df = op_data
 
+        # If there is an error in reading the operational status data;
         except:
+            # Add NaN's and save the file
             ic_df['nac_pos'] = np.NaN
             ic_df['nac_vert'] = np.NaN
             ic_df['nac_msg_count'] = np.NaN
             ic_df.to_csv(os.path.join(unified_file_path, icao + ".csv"))
+            # Continue the loop
             continue
+
+        # Getting the operational data
         pos_df = op_data
         nac_position = []
         nacvertical = []

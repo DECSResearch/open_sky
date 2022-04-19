@@ -12,7 +12,7 @@ def add_nic(df, nic_df_path, nic_added_path):
     """
     unique_icaos = df['icao24'].unique()
     # unique_icaos = [i for i in unique_icaos if i not in j.replace(".csv", "") for j in os.listdir(nic_added_path)]
-    #unique_icaos = [i.replace(".csv", "") for i in os.listdir(nic_df_path) if i.endswith(".csv")]
+    # unique_icaos = [i.replace(".csv", "") for i in os.listdir(nic_df_path) if i.endswith(".csv")]
     for unique_icao in unique_icaos:
 
         ic_df = df[df['icao24'] == unique_icao]
@@ -60,7 +60,6 @@ def add_nic(df, nic_df_path, nic_added_path):
                         msg_count = f2['msgcount']
                         # inner_inner_yes += 1
 
-
                     elif (pos_df['mintime'] - i).min() <= 2:
                         pos_data_idx = (pos_df['mintime'] - i).idxmin()
                         f2 = pos_df.iloc[pos_data_idx]
@@ -74,7 +73,6 @@ def add_nic(df, nic_df_path, nic_added_path):
 
                     nic_values.append(nic)
                     nic_message_counts.append(msg_count)
-
 
         ic_df['nic_value'] = nic_values
         ic_df['nic_messages'] = nic_message_counts
