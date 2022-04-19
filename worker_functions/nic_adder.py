@@ -11,6 +11,7 @@ def add_nic(df, nic_df_path, nic_added_path):
     :return: None
     """
     unique_icaos = df['icao24'].unique()
+    # unique_icaos = [i for i in unique_icaos if i not in j.replace(".csv", "") for j in os.listdir(nic_added_path)]
     #unique_icaos = [i.replace(".csv", "") for i in os.listdir(nic_df_path) if i.endswith(".csv")]
     for unique_icao in unique_icaos:
 

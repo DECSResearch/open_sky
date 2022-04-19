@@ -44,21 +44,21 @@ def query_caller(query, save_folder_name):
 
     # Pass .txt in path to call_query, the .txt will be replaced to .csv and saved as a file in the same location
     save_path = os.path.join(save_dir_main, "main_query.txt")
-    call_query(pos_data_query, save_path)
+    #call_query(pos_data_query, save_path)
     query_base_path = os.path.dirname(save_path)
     nic_dir = os.path.join(query_base_path, "nic_queried")
 
-    os.mkdir(nic_dir)
+    #os.mkdir(nic_dir)
     nac_dir = os.path.join(query_base_path, "nac_queried")
-    os.mkdir(nac_dir)
+    #os.mkdir(nac_dir)
     added_nic = os.path.join(query_base_path, "nic_added")
-    os.mkdir(added_nic)
+    #os.mkdir(added_nic)
     unified = os.path.join(query_base_path, "unified")
-    os.mkdir(unified)
+    #os.mkdir(unified)
     #
     main_df = pd.read_csv(save_path.replace(".txt", ".csv"))
     unique_icaos = main_df['icao24'].unique()
-
+    unique_icaos = [i for i in unique_icaos if i not in [j.replace(".csv", "")] for j in os.listdir(nic_dir) if j.endswith(".csv")]
     for unique_icao in tqdm(unique_icaos):
         filtered_df = main_df[main_df["icao24"] == unique_icao]
         start_time = filtered_df['lastposupdate'].min()
