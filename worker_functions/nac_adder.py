@@ -39,7 +39,7 @@ def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
         for i in ic_df["lastposupdate"]:
 
             f = pos_df[((pos_df['maxtime'] == i) | (pos_df['mintime'] == i))]
-            print(f.columns)
+            # print(f.columns)
             if f.shape[0] >= 1:
                 # print(f.shape[0])
                 yes_count += 1
