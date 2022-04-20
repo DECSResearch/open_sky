@@ -60,26 +60,32 @@ def query_re_caller(query, save_folder_name):
     unique_icaos = main_df['icao24'].unique()
     unique_icaos = [i for i in unique_icaos if i not in [j.replace(".csv", "") for j in os.listdir(nic_dir) if
                                                          j.endswith(".csv")]]
-    for unique_icao in tqdm(unique_icaos):
-        filtered_df = main_df[main_df["icao24"] == unique_icao]
-        start_time = filtered_df['lastposupdate'].min()
-        end_time = filtered_df['lastposupdate'].max()
-        h1 = start_time - (start_time % 3600)
-        h2 = end_time - (end_time % 3600)
 
-        nic_query = f"select * FROM position_data4 WHERE icao24 ='{unique_icao}' " \
-                    f"AND maxtime>={start_time} AND maxtime<={end_time} AND hour>={h1} AND hour<={h2};"
+    if len(unique_icaos) != 0:
+        for unique_icao in tqdm(unique_icaos):
+            filtered_df = main_df[main_df["icao24"] == unique_icao]
+            start_time = filtered_df['lastposupdate'].min()
+            end_time = filtered_df['lastposupdate'].max()
+            h1 = start_time - (start_time % 3600)
+            h2 = end_time - (end_time % 3600)
 
-        nic_save_path_txt = os.path.join(nic_dir, unique_icao + ".txt")
+            nic_query = f"select * FROM position_data4 WHERE icao24 ='{unique_icao}' " \
+                        f"AND maxtime>={start_time} AND maxtime<={end_time} AND hour>={h1} AND hour<={h2};"
 
-        call_query(nic_query, nic_save_path_txt)
+            nic_save_path_txt = os.path.join(nic_dir, unique_icao + ".txt")
 
-        nac_query = f"select * FROM operational_status_data4 WHERE icao24 ='{unique_icao}' AND maxtime>={start_time} AND " \
-                    f"maxtime<={end_time} AND hour>={h1} AND hour<={h2};"
+            call_query(nic_query, nic_save_path_txt)
 
-        nac_save_path_txt = os.path.join(nac_dir, unique_icao + ".txt")
+            nac_query = f"select * FROM operational_status_data4 WHERE icao24 ='{unique_icao}' AND maxtime>={start_time} AND " \
+                        f"maxtime<={end_time} AND hour>={h1} AND hour<={h2};"
 
-        call_query(nac_query, nac_save_path_txt)
+            nac_save_path_txt = os.path.join(nac_dir, unique_icao + ".txt")
 
-    add_nic(main_df, nic_dir, added_nic)
-    nac_and_nic_saver(added_nic, nac_dir, unified)
+            call_query(nac_query, nac_save_path_txt)
+
+        add_nic(main_df, nic_dir, added_nic)
+        nac_and_nic_saver(added_nic, nac_dir, unified)
+
+    else:
+        add_nic(main_df, nic_dir, added_nic)
+        nac_and_nic_saver(added_nic, nac_dir, unified)

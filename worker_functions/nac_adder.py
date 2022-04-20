@@ -1,12 +1,13 @@
 import os
 import numpy as np
 import pandas as pd
+from multiprocessing.pool import ThreadPool as Pool
 
 
-def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
-    list_of_icaos = [i.replace(".csv", "") for i in os.listdir(nic_file_paths) if i.endswith(".csv")]
+def nac_and_nic_saver(nic_file_paths1, nac_file_paths1, unified_file_path1):
 
-    for icao in list_of_icaos:
+    def nac_inner_func(icao, nic_file_paths=nic_file_paths1,
+                           nac_file_paths=nac_file_paths1, unified_file_path=unified_file_path1):
 
         # Filtering the over all df on icao
         ic_df = pd.read_csv(os.path.join(nic_file_paths, icao + ".csv"))
@@ -24,7 +25,7 @@ def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
             ic_df['nac_msg_count'] = np.NaN
             ic_df.to_csv(os.path.join(unified_file_path, icao + ".csv"))
             # Continue the loop
-            continue
+            return
 
         # Getting the operational data
         pos_df = op_data
@@ -100,3 +101,16 @@ def nac_and_nic_saver(nic_file_paths, nac_file_paths, unified_file_path):
         ic_df['nac_vert'] = nacvertical
         ic_df['nac_msg_count'] = nac_message_counts
         ic_df.to_csv(os.path.join(unified_file_path, icao+".csv"))
+
+
+
+
+    pool_size = 5
+    pool = Pool(pool_size)
+
+    list_of_icaos = [i.replace(".csv", "") for i in os.listdir(nic_file_paths) if i.endswith(".csv")]
+    for icao in list_of_icaos:
+        pool.apply_async(nac_inner_func, (icao,))
+    pool.close()
+    pool.join()
+

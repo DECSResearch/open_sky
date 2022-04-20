@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+from multiprocessing.pool import ThreadPool as Pool
 
 
 def add_nic(df, nic_df_path, nic_added_path):
@@ -10,11 +11,8 @@ def add_nic(df, nic_df_path, nic_added_path):
     :param nic_df_path: path to save the states_vector_data4 after adding nic values
     :return: None
     """
-    unique_icaos = df['icao24'].unique()
-    # unique_icaos = [i for i in unique_icaos if i not in j.replace(".csv", "") for j in os.listdir(nic_added_path)]
-    # unique_icaos = [i.replace(".csv", "") for i in os.listdir(nic_df_path) if i.endswith(".csv")]
-    for unique_icao in unique_icaos:
 
+    def nic_added_inner_fun(unique_icao, df=df, nic_df_path=nic_df_path, nic_added_path=nic_added_path):
         ic_df = df[df['icao24'] == unique_icao]
         pos_df = pd.read_csv(os.path.join(nic_df_path, f"{unique_icao}" + ".csv"))
         print(unique_icao, pos_df.columns)
@@ -78,3 +76,14 @@ def add_nic(df, nic_df_path, nic_added_path):
         ic_df['nic_messages'] = nic_message_counts
         nic_df_path_to_save = os.path.join(nic_added_path, unique_icao + ".csv")
         ic_df.to_csv(nic_df_path_to_save)
+
+    pool_size = 5
+    pool = Pool(pool_size)
+
+    unique_icaos = df['icao24'].unique()
+    # unique_icaos = [i for i in unique_icaos if i not in j.replace(".csv", "") for j in os.listdir(nic_added_path)]
+    # unique_icaos = [i.replace(".csv", "") for i in os.listdir(nic_df_path) if i.endswith(".csv")]
+    for unique_icao in unique_icaos:
+        pool.apply_async(nic_added_inner_fun, (unique_icao,))
+    pool.close()
+    pool.join()
