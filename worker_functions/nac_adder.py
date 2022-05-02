@@ -72,7 +72,7 @@ def nac_and_nic_saver(nic_file_paths1, nac_file_paths1, unified_file_path1):
                     nac_message_counts.append(msg_count)
 
                 else:
-                    if (pos_df['maxtime'] - i).min() <= 2:
+                    if (pos_df['maxtime'] - i).min() <= 5:
                         pos_data_idx = (pos_df['maxtime'] - i).idxmin()
                         f2 = pos_df.iloc[pos_data_idx]
                         nacpos = f2['positionnac']
@@ -108,7 +108,7 @@ def nac_and_nic_saver(nic_file_paths1, nac_file_paths1, unified_file_path1):
     pool_size = 5
     pool = Pool(pool_size)
 
-    list_of_icaos = [i.replace(".csv", "") for i in os.listdir(nic_file_paths) if i.endswith(".csv")]
+    list_of_icaos = [i.replace(".csv", "") for i in os.listdir(nic_file_paths1) if i.endswith(".csv")]
     for icao in list_of_icaos:
         pool.apply_async(nac_inner_func, (icao,))
     pool.close()
