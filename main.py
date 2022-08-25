@@ -143,7 +143,7 @@ if __name__ == '__main__':
     end_epoch_hour = end_epoch_time % 3600
 
     query = f"SELECT * FROM state_vectors_data4 WHERE time >= {start_epoch_time} AND time <= {end_epoch_time} AND hour >= {start_epoch_hour} AND hour <= {end_epoch_hour};"
-    query, folder_name = (sys.argv[1], sys.argv[2])
+    # query, folder_name = (sys.argv[1], sys.argv[2])
     try:
         query_caller(query, folder_name)
     except Exception as e:
