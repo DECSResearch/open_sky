@@ -16,6 +16,7 @@ except KeyError:
     config = configparser.ConfigParser()
     config.sections()
     config.read('config.ini')
+    o_sky = config["open_sky"]
 
 
 
