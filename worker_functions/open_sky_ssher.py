@@ -1,11 +1,24 @@
 import paramiko
+from setup import create_config
 import os
 import configparser
 
 config = configparser.ConfigParser()
 config.sections()
 config.read('config.ini')
-o_sky = config["open_sky"]
+try:
+    o_sky = config["open_sky"]
+except KeyError:
+    print("It looks like this program is running on this system for the first time.. please complete the setup "
+          "process: ")
+    create_config()
+
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read('config.ini')
+
+
+
 
 
 def call_query(query, file_path):

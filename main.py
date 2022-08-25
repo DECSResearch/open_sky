@@ -50,14 +50,17 @@ def query_caller(query, save_folder_name):
     pos_data_query = query
     #save_dir_main = "/home/akshay.ramchandra/PycharmProjects/nac_nic_unifier/data/19apr2021_first/"
     save_dir_main = os.path.join(R00t, "data", save_folder_name)
+    print("I'm making the save dir for the query  data..")
     os.mkdir(save_dir_main)
+    print("Received query: ")
     print(pos_data_query)
 
     # Pass .txt in path to call_query, the .txt will be replaced to .csv and saved as a file in the same location
     save_path = os.path.join(save_dir_main, "main_query.txt")
     # Calling the query and saving the data to a text file.
+    print("Calling the query: ")
     call_query(pos_data_query, save_path)
-
+    print("completed calling the main query, now moving on to nic and nac query")
     # Defining paths
     query_base_path = os.path.dirname(save_path)
     nic_dir = os.path.join(query_base_path, "nic_queried")
@@ -117,6 +120,29 @@ def query_caller(query, save_folder_name):
 
 if __name__ == '__main__':
     maxreconns = 10
+    start_epoch_time = input("Enter start epoch time: ")
+    end_epoch_time = input("End epoch time: ")
+    folder_name = input("Enter the name of the folder in which the data needs to be saved(this will be created in the "
+                        "data folder): ")
+    save_dir_main = os.path.join(R00t, "data", folder_name)
+    if os.path.exists(save_dir_main):
+        approved = False
+        while not approved:
+            folder_name = input(
+                "Folder name already exists Pls choose another name: ")
+            save_dir_main = os.path.join(R00t, "data", folder_name)
+            if not os.path.exists(save_dir_main):
+                approved = True
+            else:
+                pass
+
+    else:
+        pass
+
+    start_epoch_hour = start_epoch_time % 3600
+    end_epoch_hour = end_epoch_time % 3600
+
+    query = f"SELECT * FROM state_vectors_data4 WHERE time >= {start_epoch_time} AND time <= {end_epoch_time} AND hour >= {start_epoch_hour} AND hour <= {end_epoch_hour};"
     query, folder_name = (sys.argv[1], sys.argv[2])
     try:
         query_caller(query, folder_name)
