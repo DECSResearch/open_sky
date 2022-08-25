@@ -120,8 +120,8 @@ def query_caller(query, save_folder_name):
 
 if __name__ == '__main__':
     maxreconns = 10
-    start_epoch_time = input("Enter start epoch time: ")
-    end_epoch_time = input("End epoch time: ")
+    start_epoch_time = int(input("Enter start epoch time: "))
+    end_epoch_time = int(input("End epoch time: "))
     folder_name = input("Enter the name of the folder in which the data needs to be saved(this will be created in the "
                         "data folder): ")
     save_dir_main = os.path.join(R00t, "data", folder_name)
