@@ -139,8 +139,8 @@ if __name__ == '__main__':
     else:
         pass
 
-    start_epoch_hour = start_epoch_time % 3600
-    end_epoch_hour = end_epoch_time % 3600
+    start_epoch_hour = start_epoch_time - (start_epoch_time % 3600)
+    end_epoch_hour = end_epoch_time - (end_epoch_time % 3600)
 
     query = f"SELECT * FROM state_vectors_data4 WHERE time >= {start_epoch_time} AND time <= {end_epoch_time} AND hour >= {start_epoch_hour} AND hour <= {end_epoch_hour};"
     # query, folder_name = (sys.argv[1], sys.argv[2])
