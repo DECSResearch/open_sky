@@ -120,9 +120,20 @@ def query_caller(query, save_folder_name):
 
 if __name__ == '__main__':
     maxreconns = 10
-    start_epoch_time = int(input("Enter start epoch time: "))
-    end_epoch_time = int(input("End epoch time: "))
-    filter_to_North_america = input("Do you want only North America y / any other key/blank?")
+    call_custom_query = input("Would you like to call your own query  (y / any key or blank)?")
+    if call_custom_query != "y":
+        start_epoch_time = int(input("Enter start epoch time: "))
+        end_epoch_time = int(input("End epoch time: "))
+        filter_to_North_america = input("Do you want only North America y / any other key/blank?")
+        start_epoch_hour = start_epoch_time - (start_epoch_time % 3600)
+        end_epoch_hour = end_epoch_time - (end_epoch_time % 3600)
+        if filter_to_North_america != "y":
+            query = f"SELECT * FROM state_vectors_data4 WHERE time >= {start_epoch_time} AND time <= {end_epoch_time} AND hour >= {start_epoch_hour} AND hour <= {end_epoch_hour};"
+
+        else:
+            query = f"SELECT * FROM state_vectors_data4 WHERE time >= {start_epoch_time} AND time <= {end_epoch_time} AND hour >= {start_epoch_hour} AND hour <= {end_epoch_hour} AND lat <= 71.62943972217752 AND long >= -169.12631840920145 AND lat >= 15.85374034675038 AND lon <= -52.42325034328084;"
+    else:
+        query = input("Enter the query: ")
     folder_name = input("Enter the name of the folder in which the data needs to be saved(this will be created in the "
                         "data folder): ")
     save_dir_main = os.path.join(R00t, "data", folder_name)
@@ -139,14 +150,6 @@ if __name__ == '__main__':
 
     else:
         pass
-
-    start_epoch_hour = start_epoch_time - (start_epoch_time % 3600)
-    end_epoch_hour = end_epoch_time - (end_epoch_time % 3600)
-    if filter_to_North_america != "y":
-        query = f"SELECT * FROM state_vectors_data4 WHERE time >= {start_epoch_time} AND time <= {end_epoch_time} AND hour >= {start_epoch_hour} AND hour <= {end_epoch_hour};"
-
-    else:
-        query = f"SELECT * FROM state_vectors_data4 WHERE time >= {start_epoch_time} AND time <= {end_epoch_time} AND hour >= {start_epoch_hour} AND hour <= {end_epoch_hour} AND lat <= 71.62943972217752 AND long >= -169.12631840920145 AND lat >= 15.85374034675038 AND lon <= -52.42325034328084;"
 
     try:
         query_caller(query, folder_name)
