@@ -59,6 +59,11 @@ def query_caller(query, save_folder_name):
     save_path = os.path.join(save_dir_main, "main_query.txt")
     # Calling the query and saving the data to a text file.
     print("Calling the query: ")
+
+    with open(os.path.join(save_dir_main, "passed_query.txt"), "w") as qtxt:
+        qtxt.wirte(pos_data_query)
+    qtxt.close()
+
     call_query(pos_data_query, save_path)
     print("completed calling the main query, now moving on to nic and nac query")
     # Defining paths
